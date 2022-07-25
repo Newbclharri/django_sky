@@ -1,0 +1,22 @@
+*{
+    /* border: 2px solid red; */
+}
+header{
+    background-color: gray;
+}
+
+header a{
+    color: white;
+    font-weight: bold;
+}
+nav{
+    display: flex;
+    justify-content: right;
+}
+nav li{
+    display: inline;
+    margin: 5px;
+}
+.home{
+    text-align: center;
+}

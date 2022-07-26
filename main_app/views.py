@@ -9,6 +9,7 @@ from django.views.generic import CreateView, UpdateView
 import boto3, uuid
 from .forms import SignUpForm, EditProfileForm
 from.models import Profile, ProfilePic, User
+from django.urls import reverse_lazy
 import psycopg2
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
@@ -35,10 +36,11 @@ def signup(request):
 class UserEditView(UpdateView):
     form_class = EditProfileForm
     template_name = 'registration/edit_profile.html'
-    success_url = 'home'
     
     def get_object(self):
         return self.request.user
+    
+    success_url = reverse_lazy('edit_profile')
     
 def add_profilepic(request):
     photo_file = request.FILES.get('photo-file', None)

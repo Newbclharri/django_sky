@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    
     <h1>Edit Profile</h1>
 
     
@@ -13,7 +14,7 @@
     <br>
     {% if user.profile.pic_url %}
 
-        <img src="{{ user.profile.pic_url }}" alt="profile picture"/>
+        <img src="{{ user.profile.pic_url }}" alt="profile picture" id="prof-pic"/>
 
     {% endif %}
     
@@ -23,6 +24,33 @@
         {{ form.as_p }}
         <input type="submit" value="Update Profile">
     </form>
+
+    <script>
+        const profPic = document.getElementById('prof-pic')
+        let width = profPic.naturalWidth
+        let height = profPic.naturalHeight
+        console.log("prof-pic:", width, height)
+
+        while (width > 400 || height > 400){
+            console.log("too big")
+            width *= .50
+            height *= .50
+
+            let widthString = JSON.stringify(width) + 'px'
+            let heightString = JSON.stringify(height) + 'px'
+            profPic.style["width"] = widthString
+            profPic.style["height"] = heightString
+            console.log(width, height)
+            
+        }
+
+        while(width > 400 || height > 400){
+            document.location.reload()
+        }
+
+    </script>
+
+
 
     
 

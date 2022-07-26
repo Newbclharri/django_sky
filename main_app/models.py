@@ -11,6 +11,9 @@ class Profile(models.Model):
     profile_pic = models.ImageField(null = True, upload_to = 'images/profile')
     pic_url = models.CharField(null = True, max_length=250)
     
+    def get_absolute_url(self):
+        return reverse('edit_profile')
+    
     
     def __str__(self):
         return f'{self.user.username}: {self.user.first_name} {self.user.last_name}'

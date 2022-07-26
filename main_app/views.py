@@ -24,6 +24,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user=form.save()
+            Profile(user=user).save()
             login(request, user)
             return redirect('home')
         else:

@@ -24,3 +24,28 @@ class ProfilePic(models.Model):
     
     def __str__(self):
         return f'Photo url for {self.user_id} @ {self.url}'
+    
+SPIRITS = (
+    ('Candlemaker', 'Pointing-Candlemaker'),
+    ('Stargazer', 'Ushering-Stargazer'),
+    ('Voyager', 'Rejecting-Voyager'),
+    ('Charmer', 'Butterfly-Charmer'),
+    ('Bellmaker', 'Waving-Bellmaker'),    
+)
+
+class Spirit(models.Model):
+    name = models.CharField(max_length=200)
+    realm = models.CharField(max_length=100)
+    url = models.CharField(max_length=200)    
+    
+    def __str__(self):
+        return f'{self.id}: {self.name}'
+        
+
+class UserSpirit(models.Model):
+    name = models.CharField(max_length=200)
+    realm = models.CharField(max_length=100)
+    url = models.CharField(max_length=200)
+    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(User)
+    

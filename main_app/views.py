@@ -24,7 +24,6 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user=form.save()
-            Profile(user=user).save()
             login(request, user)
             return redirect('home')
         else:
@@ -44,6 +43,13 @@ class UserEditView(UpdateView):
     success_url = reverse_lazy('edit_profile')
     
 def add_profilepic(request):
+    # check to see if there is an instance of the model Profile
+    # if not save an instance of profile linked to the active user making the request        
+    if not(Profile.objects.filter(user = request.user).exists()):
+            Profile(user = request.user).save()
+    print(request.user.profile)
+    
+    # add file to s3 bucket with authentic url
     photo_file = request.FILES.get('photo-file', None)
     print('user id: ',request.user.id, photo_file)
     if photo_file:
@@ -54,7 +60,7 @@ def add_profilepic(request):
         # build full url string
         user_profile = Profile(user = request.user)
         url  = f'{S3_BASE_URL}{BUCKET}/{key}'
-    
+        
         
         connection = psycopg2.connect(  user="contactharrisc2",
                                         password="J0s3aRr901",

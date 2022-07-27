@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, UserSpirit
+from django.forms import ModelForm
 from django import forms
 
 
@@ -18,5 +19,10 @@ class EditProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
+        
+class SpiritForm(ModelForm):
+    class Meta:
+        model = UserSpirit
+        fields = ['description', 'name']
     
     

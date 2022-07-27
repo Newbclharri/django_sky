@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+from distutils.text_file import TextFile
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -26,26 +27,38 @@ class ProfilePic(models.Model):
         return f'Photo url for {self.user_id} @ {self.url}'
     
 SPIRITS = (
-    ('Candlemaker', 'Pointing-Candlemaker'),
-    ('Stargazer', 'Ushering-Stargazer'),
-    ('Voyager', 'Rejecting-Voyager'),
-    ('Charmer', 'Butterfly-Charmer'),
-    ('Bellmaker', 'Waving-Bellmaker'),    
+    ('Candlemaker', 'Candlemaker'),
+    ('Stargazer', 'Stargazer'),
+    ('Voyager', 'Voyager'),
+    ('Charmer', 'Charmer'),
+    ('Bellmaker', 'Bellmaker'),    
 )
 
 class Spirit(models.Model):
-    name = models.CharField(max_length=200)
+    tag = models.CharField(null=True, max_length=15)
+    name = models.CharField(max_length=100)
     realm = models.CharField(max_length=100)
-    url = models.CharField(max_length=200)    
+    url = models.CharField(max_length=200)   
     
     def __str__(self):
-        return f'{self.id}: {self.name}'
+        return f'{self.id} - {self.tag}'
+    
+    class Meta:
+        ordering = ['name']
         
 
 class UserSpirit(models.Model):
-    name = models.CharField(max_length=200)
+    tag = models.CharField(
+        null=True,
+        max_length=15,
+        choices=SPIRITS,
+        default=SPIRITS[0][0],
+        )
+    name = models.CharField(max_length=100)
     realm = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
-    user = models.ManyToManyField(User)
+    description = models.TextField(null=True, blank=True, max_length= 500)
     user = models.ManyToManyField(User)
     
+    def __str__(self):
+        return f'{self.id} - {self.tag}'

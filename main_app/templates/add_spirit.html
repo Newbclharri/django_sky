@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Add Spirit</h1>
+
+    <div>
+        <form action="{% url 'add_spirit' %}" method="post">
+            {% csrf_token %}
+            {{ spirit_form.as_p }}
+            <input type="submit" class="btn" value="Add Spirit">
+        </form>
+    </div>
+
+    <script>
+        const selectEl = document.getElementById('id_name');
+
+        //Configure the select tag
+        M.FormSelect.init(selectEl);
+    </script>
+
+{% endblock %}

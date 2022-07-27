@@ -1,14 +1,17 @@
+from audioop import reverse
 from distutils.log import error
+from sre_constants import CATEGORY_UNI_DIGIT, SUCCESS
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.http import HttpResponse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 import boto3, uuid
-from .forms import SignUpForm, EditProfileForm
-from.models import Profile, ProfilePic, User
+from .forms import SignUpForm, EditProfileForm, SpiritForm
+from.models import Profile, ProfilePic, Spirit, UserSpirit, User
 from django.urls import reverse_lazy
 import psycopg2
 
@@ -96,3 +99,48 @@ def add_profilepic(request):
 
 def home(request):
     return render(request, 'home.html')
+
+def add_spirit(request):
+    spirit_data = ""
+    blank_form = SpiritForm()
+    form = SpiritForm(request.POST)
+    if form.is_valid():
+        new_spirit = form.save(commit=False)
+        spirit_data = Spirit.objects.filter(name = new_spirit.name)
+        new_spirit.user_id = request.user_id
+        new_spirit.realm = spirit_data.realm
+        new_spirit.url = spirit_data.url
+    return render(request, "add_spirit.html", {
+        'spirit_form': blank_form,
+    })
+
+class SpiritCreate(CreateView):
+    model = UserSpirit
+    fields = ['tag', 'description']
+    def form_valid(self, form):
+        user_spirit = form.instance
+        # user_spirit = self.object
+        # user_spirit= form.save(commit=False)
+        user_spirit.save()
+        user_spirit.user.add(self.request.user)
+        data_spirit = Spirit.objects.get(tag=user_spirit.tag)
+        user_spirit.name = data_spirit.name
+        user_spirit.realm = data_spirit.realm
+        user_spirit.url = data_spirit.url
+        user_spirit.save()
+                
+        # user_spirit = Spirit.objects.get(user = self.request.user)
+        # data_spirit = Spirit.objects.get(tag = user_spirit.tag)
+        # user_spirit.name = data_spirit.name
+        # user_spirit.realm = data_spirit.realm
+        # user_spirit.url = data_spirit.url
+        # user_spirit.set()
+        return super().form_valid(form)
+    success_url = reverse_lazy('home')
+
+class SpiritList(ListView):
+    model = Spirit 
+
+class SpiritDetail(DetailView):
+    model = Spirit
+    success_url = reverse_lazy('/spirits/')

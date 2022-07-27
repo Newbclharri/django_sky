@@ -8,12 +8,12 @@
         <div class="col s6 col-offset-3">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">{{ spirit.name }}</span>
-                    <p>Color: {{ spirit.color }}</p>
+                    <span class="card-title">{{ userspirit.name }}</span>
+                    <p>Description: {{ userspirit.description }}</p>
                 </div>       
                 <div class="card-action">
-                    <a href="{% url 'spirits_update' spirit.id %}">Edit</a>
-                    <a href="{% url 'spirits_delete' spirit.id %}">Delete</a>
+                    <a href="{% url 'spirits_update' userspirit.id %}">Edit</a>
+                    <a href="{% url 'spirits_delete' userspirit.id %}">Delete</a>
                 </div>
             </div>
         </div>

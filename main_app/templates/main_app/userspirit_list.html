@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>My Spirits</h1>
+
+    {% for spirit in userspirit_list %}
+        
+        <div class="card">
+            <div class="card-content">
+                <a href=" {% url 'spirits_detail' spirit.id %}">
+                    <span class="card-title" style="display: block;">{{ spirit.name }}</span>                    
+                    <img src="{{ spirit.url }}" alt="spirit photo"/>
+                </a>       
+                <p>Realm: {{ spirit.realm }}</p>
+                <p>Description: {{ spirit.description }}</p>
+            </div>
+        </div>        
+        <hr>
+
+    {% endfor %}
+
+
+{% endblock %}

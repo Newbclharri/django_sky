@@ -1,6 +1,4 @@
-from audioop import reverse
-from distutils.log import error
-from sre_constants import CATEGORY_UNI_DIGIT, SUCCESS
+from ast import Del
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -11,8 +9,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 import boto3, uuid
 from .forms import SignUpForm, EditProfileForm, SpiritForm
-from.models import Profile, ProfilePic, Spirit, UserSpirit, User
-from django.urls import reverse_lazy
+from.models import Profile, ProfilePic, Spirit, UserSpirit, User, WingedLight
+from django.urls import reverse_lazy, reverse
 import psycopg2
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
@@ -139,8 +137,36 @@ class SpiritCreate(CreateView):
     success_url = reverse_lazy('home')
 
 class SpiritList(ListView):
-    model = Spirit 
+    model = UserSpirit 
 
 class SpiritDetail(DetailView):
-    model = Spirit
+    model = UserSpirit
     success_url = reverse_lazy('/spirits/')
+    
+class SpiritUpdate(UpdateView):
+    model = UserSpirit
+    fields = ['description']
+    
+class SpiritDelete(DeleteView):
+    model = UserSpirit
+    success_url = reverse_lazy('spirits_index')
+    
+class WingedLightList(LoginRequiredMixin, ListView):
+    model = WingedLight
+
+class WingedLightDetail(LoginRequiredMixin, DetailView):
+    model = WingedLight
+    success_url = '/wingedlight/'
+    
+class WingedLightCreate(LoginRequiredMixin, CreateView):
+    model = WingedLight
+    fields= '__all__'
+    success_url = '/wingedlight/'
+
+class WingedLightUpdate(LoginRequiredMixin, UpdateView):
+    model = WingedLight
+    fields = ['name', 'color']
+
+class WingedLightDelete(LoginRequiredMixin, DeleteView):
+    model = WingedLight
+    success_url = '/wingedlight/'

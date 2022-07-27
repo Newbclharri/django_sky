@@ -2,19 +2,18 @@
 
 {% block content %}
 
-    <h1>Sky Spirits</h1>
 
-    <form action="{% url 'spirits_create' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn" value="Add Spirit">
-      </form>
+  <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn" value="Add Spirit">
+    </form>
 
-      <!-- <script>
-        const selectEl = document.getElementById('id_name');
+    <!-- <script>
+      const selectEl = document.getElementById('id_name');
 
-        //Configure the select tag
-        M.FormSelect.init(selectEl);
-      </script> -->
+      //Configure the select tag
+      M.FormSelect.init(selectEl);
+    </script> -->
 
 {% endblock %}

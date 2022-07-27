@@ -34,7 +34,7 @@ SPIRITS = (
 )
 
 class Spirit(models.Model):
-    tag = models.CharField(null=True, max_length=15)
+    tag = models.CharField(null=True, max_length=20)
     name = models.CharField(max_length=100)
     realm = models.CharField(max_length=100)
     url = models.CharField(max_length=200)   
@@ -49,7 +49,7 @@ class Spirit(models.Model):
 class UserSpirit(models.Model):
     tag = models.CharField(
         null=True,
-        max_length=15,
+        max_length=20,
         choices=SPIRITS,
         default=SPIRITS[0][0],
         )
@@ -61,6 +61,9 @@ class UserSpirit(models.Model):
     
     def __str__(self):
         return f'{self.id} - {self.tag}'
+    
+    def get_absolute_url(self):
+        return reverse('spirits_detail', kwargs={'pk': self.id})
     
 REALMS = (
     ('Isle of Dawn', 'Isle'),

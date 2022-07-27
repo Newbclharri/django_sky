@@ -1,6 +1,5 @@
-from distutils.command.upload import upload
-from distutils.text_file import TextFile
 from django.db import models
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -62,3 +61,28 @@ class UserSpirit(models.Model):
     
     def __str__(self):
         return f'{self.id} - {self.tag}'
+    
+REALMS = (
+    ('Isle of Dawn', 'Isle'),
+    ('Daylight Prairie', 'Daylight'),
+    ('Hidden Forest', 'Forest'),
+    ('Valley of Triump', 'Valley'),
+    ('Golden Wasteland', 'Wasteland'),
+    ('Vault of Knowledge', 'Vault'),
+    ('Secret Area', 'Secret'),
+)
+
+class WingedLight(models.Model):
+    realm = models.CharField(
+        max_length=20,
+        choices=REALMS,
+        default=REALMS[0][0]
+        )
+    location = RichTextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.id} - {self.realm}'
+    
+    class Meta:
+            ordering = ['realm']

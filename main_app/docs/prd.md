@@ -52,6 +52,6 @@ flowchart LR
 
 ## User Interface Mockups
 
-![Web Mockup](https://i.imgur.com/wSE6lYM.png!)
+![Web Mockup](https://sky-cotl-cj.s3.us-east-2.amazonaws.com/wallpaper/prd.png)
 
 

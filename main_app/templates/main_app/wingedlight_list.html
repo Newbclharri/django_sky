@@ -4,7 +4,12 @@ for django to inject html in that position -->
 <!-- The html code will only be inject if the user hits the route/path -->
 {% block content %}
 <!-- all html and python code is written between the blocks -->
-
+<style>
+    .center{
+        display: flex;
+        justify-content: center;
+    }
+</style>
 
 {% if user.wingedlight_set.count == 0 %}
     <div class="container">
@@ -19,9 +24,9 @@ for django to inject html in that position -->
 
 {% for wingedlight in wingedlight_list %}
     <a href="{% url 'wingedlight_detail' wingedlight.id %}">
-        <div class="container">
+        <div class="container center">
             <div class="card-content">
-                <span class="card-title"><h1>{{ wingedlight.wingedlight }}</h1></span>
+                <span class="card-title"><h1 class="center">{{ wingedlight.wingedlight }}</h1></span>
                 <h3>Realm: {{ wingedlight.realm }}</h3>
                 {% if wingedlight.url %}
                     <img src="{{ wingedlight.url }}" alt="winged light screenshot"/>

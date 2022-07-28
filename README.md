@@ -51,8 +51,9 @@ path('', views.home, name='home'),
 ```mermaid
 flowchart LR
   User-->Profile
+  User-->Spirits-->Friends
   User-->WingedLight
-  Spirits-->Friends
+  
 ```
 
 ## User Interface Mockups

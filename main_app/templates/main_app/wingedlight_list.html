@@ -5,13 +5,14 @@ for django to inject html in that position -->
 {% block content %}
 <!-- all html and python code is written between the blocks -->
 
+
 {% if user.wingedlight_set.count == 0 %}
     <div class="container">
         <h1 class="title">Seek Adventures to Fly Higher!</h1>
     </div>
 {% else %}
     <div class="container">
-        <h1 class="title">Winged Light:</h1>
+        <h1 id ="title-text" class="title">Winged Light:</h1>
     </div>
 {% endif %}
 

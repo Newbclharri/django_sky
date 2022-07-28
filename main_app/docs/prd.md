@@ -11,6 +11,12 @@
 | Planning | https://miro.com/app/board/uXjVOihbQvw=/ |
 | Technologies | HTML,CSS, JavaScript, Python, Django, Jinja, PostgreSQL, AWS, Heroku, Miro, Github, Postman. |
 
+## Things I Want to Improve:
+- Create Add friends functionality
+ - blog post functionality
+ - Display friends that have spirits in common
+ - Display stats: (Friends that have more Spirts and Winged Light)
+
 
 ## Problem Being Solved and Target Market
 

@@ -27,6 +27,14 @@
                 display: flex;
                 justify-content: center;
             }
+
+            #nav-count{
+                margin-left: 20px;
+            }
+
+            body{
+                font-size: 30px;
+            }
         </style>
     </head>
     <body>
@@ -34,7 +42,7 @@
             <nav class="navbar navbar-dark bg-dark">
                 {% if user.is_authenticated %}
                     <li>{{ user.username }}:
-                        <a href="{% url 'wingedlight_index' %}" class="navbar-brand">{{ user.wingedlight_set.count }} - Winged Light</a> 
+                        <a href="{% url 'wingedlight_index' %}" class="navbar-brand" id="nav-count">{{ user.wingedlight_set.count }} - Winged Light</a> 
                         <a href="{% url 'wingedlight_create' %}" class="navbar-brand">+</a>   
                     </li>
                     <li><a href="{% url 'home' %}" class="navbar-brand">Home</a></li>

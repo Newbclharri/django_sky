@@ -16,6 +16,7 @@
  - blog post functionality
  - Display friends that have spirits in common
  - Display stats: (Friends that have more Spirts and Winged Light)
+ - Sky updates and posts to home page
 
 
 ## Problem Being Solved and Target Market

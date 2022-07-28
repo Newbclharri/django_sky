@@ -2,6 +2,13 @@
 
 {% block content %}
 
+    <style>
+        /* .center{
+            display: flex;
+            justify-content: center;
+        } */
+    </style>
+
     <div class="container">
         <h1 class="title">My Spirits</h1>
         <br>
@@ -13,7 +20,7 @@
 
     {% for spirit in userspirit_list %}
         
-        <div class="container">
+        <div class="container center">
             <div class="card-content">
                 <a href=" {% url 'spirits_detail' spirit.id %}">
                     <span class="card-title" style="display: block;">{{ spirit.name }}</span>                    

@@ -52,8 +52,7 @@ path('', views.home, name='home'),
 flowchart LR
   User-->Profile
   User-->WingedLight
-  Spirits-->Friends-->
-
+  Spirits-->Friends
 ```
 
 ## User Interface Mockups

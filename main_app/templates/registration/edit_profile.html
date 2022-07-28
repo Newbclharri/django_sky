@@ -3,27 +3,29 @@
 {% block content %}
 
     
-    <h1>Edit Profile</h1>
+    <div class="container">
+        <h1 class="title">Edit Profile</h1>
+    </div>
 
     
-    <form action="{% url 'add_profilepic' %}", method="POST", enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="photo-file">
-        <input type="submit" value="Add Photo!">
-    </form>
-    <br>
-    {% if user.profile.pic_url %}
-
-        <img src="{{ user.profile.pic_url }}" alt="profile picture" id="prof-pic"/>
-
-    {% endif %}
-    
-
-    <form action="" method="POST" enctype="multipart/form-data" name="photo-file">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Update Profile">
-    </form>
+    <div class="container">
+        <form action="{% url 'add_profilepic' %}", method="POST", enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="photo-file" class="btn btn-outline-primary rounded-pill">
+            <input type="submit" value="Add Photo!" class="btn btn-outline-primary rounded-pill">
+        </form>
+        <br>
+        {% if user.profile.pic_url %}
+            <img src="{{ user.profile.pic_url }}" alt="profile picture" id="prof-pic"/>
+        {% endif %}
+        
+        <br><br>
+        <form action="" method="POST" enctype="multipart/form-data" name="photo-file">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update Profile" class="btn btn-outline-primary rounded-pill">
+        </form>
+    </div>
 
     <script>
         const profPic = document.getElementById('prof-pic')

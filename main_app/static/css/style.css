@@ -1,5 +1,6 @@
 *{
     /* border: 2px solid red; */
+    font-family: 'Odibee Sans', cursive;
 }
 header{
     background-color: gray;
@@ -19,4 +20,8 @@ nav li{
 }
 .home{
     text-align: center;
+}
+
+main {
+    margin: 20px auto;
 }

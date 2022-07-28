@@ -1,6 +1,8 @@
 from ast import Del
+from hashlib import new
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -18,6 +20,8 @@ BUCKET = 'sky-cotl-cj'
 
 
 # Create your views here.
+def home(request):
+    return render(request, 'home.html')
 
 def signup(request):
     error_message = ''
@@ -34,7 +38,7 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}            
     return render(request, 'registration/signup.html', context)
 
-class UserEditView(UpdateView):
+class UserEditView(LoginRequiredMixin, UpdateView):
     form_class = EditProfileForm
     template_name = 'registration/edit_profile.html'
     
@@ -43,6 +47,7 @@ class UserEditView(UpdateView):
     
     success_url = reverse_lazy('edit_profile')
     
+@login_required 
 def add_profilepic(request):
     # check to see if there is an instance of the model Profile
     # if not save an instance of profile linked to the active user making the request        
@@ -95,10 +100,9 @@ def add_profilepic(request):
             print("PostgreSQL connection is closed")
     return redirect('edit_profile')
 
-def home(request):
-    return render(request, 'home.html')
 
-def add_spirit(request):
+@login_required
+def add_screenshot(request):
     spirit_data = ""
     blank_form = SpiritForm()
     form = SpiritForm(request.POST)
@@ -112,7 +116,7 @@ def add_spirit(request):
         'spirit_form': blank_form,
     })
 
-class SpiritCreate(CreateView):
+class SpiritCreate(LoginRequiredMixin, CreateView):
     model = UserSpirit
     fields = ['tag', 'description']
     def form_valid(self, form):
@@ -134,20 +138,19 @@ class SpiritCreate(CreateView):
         # user_spirit.url = data_spirit.url
         # user_spirit.set()
         return super().form_valid(form)
-    success_url = reverse_lazy('home')
 
-class SpiritList(ListView):
+class SpiritList(LoginRequiredMixin, ListView):
     model = UserSpirit 
 
-class SpiritDetail(DetailView):
+class SpiritDetail(LoginRequiredMixin, DetailView):
     model = UserSpirit
     success_url = reverse_lazy('/spirits/')
     
-class SpiritUpdate(UpdateView):
+class SpiritUpdate(LoginRequiredMixin, UpdateView):
     model = UserSpirit
     fields = ['description']
     
-class SpiritDelete(DeleteView):
+class SpiritDelete(LoginRequiredMixin, DeleteView):
     model = UserSpirit
     success_url = reverse_lazy('spirits_index')
     
@@ -160,12 +163,29 @@ class WingedLightDetail(LoginRequiredMixin, DetailView):
     
 class WingedLightCreate(LoginRequiredMixin, CreateView):
     model = WingedLight
-    fields= '__all__'
+    fields= ['wingedlight', 'realm', 'location']
+    
+    def form_valid(self, form):
+        new_wingedlight = form.instance
+        new_wingedlight.user_id = self.request.user.pk
+        new_wingedlight.save()
+        photo_file = self.request.FILES.get('photo-file', None)
+        
+        if photo_file:
+            session = boto3.Session(profile_name='sky')
+            s3_client = session.client('s3')
+            key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]        
+            s3_client.upload_fileobj(photo_file, BUCKET, key)
+            # build full url string
+            url  = f'{S3_BASE_URL}{BUCKET}/{key}'
+            new_wingedlight.url = url
+        return super().form_valid(form) 
     success_url = '/wingedlight/'
+    
 
 class WingedLightUpdate(LoginRequiredMixin, UpdateView):
     model = WingedLight
-    fields = ['name', 'color']
+    fields = ['realm', 'location']
 
 class WingedLightDelete(LoginRequiredMixin, DeleteView):
     model = WingedLight

@@ -3,11 +3,13 @@
 {% block content %}
 
 
-  <form action="" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" class="btn" value="Add Spirit">
-    </form>
+  <div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-outline-primary rounded-pill" value="Add Spirit">
+      </form>
+  </div>
 
     <!-- <script>
       const selectEl = document.getElementById('id_name');

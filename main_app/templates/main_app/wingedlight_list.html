@@ -5,17 +5,31 @@ for django to inject html in that position -->
 {% block content %}
 <!-- all html and python code is written between the blocks -->
 
-<h1>Toy List</h1>
+{% if user.wingedlight_set.count == 0 %}
+    <div class="container">
+        <h1 class="title">Seek Adventures to Fly Higher!</h1>
+    </div>
+{% else %}
+    <div class="container">
+        <h1 class="title">Winged Light:</h1>
+    </div>
+{% endif %}
+
 
 {% for wingedlight in wingedlight_list %}
     <a href="{% url 'wingedlight_detail' wingedlight.id %}">
-        <div class="card">
+        <div class="container">
             <div class="card-content">
-                <span class="card-title">{{ wingedlight.realm }}</span>
-                <p>Color: {{ wingedlight.color }}</p>
+                <span class="card-title"><h1>{{ wingedlight.wingedlight }}</h1></span>
+                <h3>Realm: {{ wingedlight.realm }}</h3>
+                {% if wingedlight.url %}
+                    <img src="{{ wingedlight.url }}" alt="winged light screenshot"/>
+                    <p>Location: {{ wingedlight.location }}</p>
+                {% endif %}
             </div>
         </div>
     </a>
+    <hr>
 {% endfor %}
 
 {% endblock %}

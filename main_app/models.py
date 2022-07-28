@@ -76,12 +76,14 @@ REALMS = (
 )
 
 class WingedLight(models.Model):
+    wingedlight = models.IntegerField(null=True)
     realm = models.CharField(
         max_length=20,
         choices=REALMS,
         default=REALMS[0][0]
         )
     location = RichTextField()
+    url = models.CharField(null=True,blank=True,max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -89,3 +91,6 @@ class WingedLight(models.Model):
     
     class Meta:
             ordering = ['realm']
+    
+    def get_absolute_url(self):
+        return reverse('wingedlight_detail', kwargs={'pk': self.id})

@@ -50,10 +50,10 @@ path('', views.home, name='home'),
 
 ```mermaid
 flowchart LR
-  App-->Header
-  App-->MainDisplay-->Home-->AddWine
-  App-->Footer
-  MainDisplay-->Panel-->Nav
+  User-->Profile
+  User-->Spirits-->Friends-->
+  User-->WingedLight
+  Spirits-->Friends-->
 
 ```
 
